@@ -16,9 +16,7 @@ class CreateHashtagsTable extends Migration
         Schema::create('hashtags', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('news_id');
-            $table->string('name_en');
-            $table->string('name_ru');
-            $table->string('name_hy');
+            $table->string('name');
             $table->timestamps();
 
             $table->foreign('news_id')->references('id')->on('news');

@@ -10,7 +10,7 @@ class View_news extends Model
         'news_id','ip',
     ];
 
-    public function News()
+    public function news()
     {
         return $this->belongsTo(News::class);
     }

@@ -30,17 +30,17 @@
 
 </head>
 <body>
-    <div id="main-wrapper">
-        <!-- Header Section -->
-        @include('include.header')
+<div id="main-wrapper">
+    <!-- Header Section -->
+@include('include.header')
 
-        @yield('content')
+@yield('content')
 
-    <!-- Footer Section -->
-    @include('include.footer')
+<!-- Footer Section -->
+@include('include.footer')
 
-    <!--main-wrapper-->
-    </div>
+<!--main-wrapper-->
+</div>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="{{asset('assets/js/jquery.min.js')}}"></script>
 

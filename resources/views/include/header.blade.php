@@ -1,5 +1,11 @@
 <header>
     <div class="container">
+        @if ($message = session('message'))
+            <div class="alert alert-success">{{ $message }}</div>
+        @endif
+            @if ($message = session('block'))
+                <div class="alert alert-danger">{{ $message }}</div>
+            @endif
 {{--        <div class="top_ber">--}}
 {{--            <div class="row">--}}
 {{--                <div class="col-md-6">--}}

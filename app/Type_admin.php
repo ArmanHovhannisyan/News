@@ -10,7 +10,7 @@ class Type_admin extends Model
         'name_en', 'name_ru', 'name_hy',
     ];
 
-    public function User()
+    public function user()
     {
         return $this->hasMany(User::class);
     }

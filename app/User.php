@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','status','type_admin_id',
+        'name', 'email', 'password', 'status_id', 'type_admin_id',
     ];
 
     /**
@@ -37,8 +37,35 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function Type_admin()
+
+
+    public function type_admin()
     {
         return $this->belongsTo(Type_admin::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
+    }
+
+    public function isAdmin()
+    {
+        return $this->status_id == 2;
+    }
+
+    public function waiting()
+    {
+        return $this->status_id == 1;
+    }
+
+    public function block()
+    {
+        return $this->status_id == 3;
+    }
+
+    public function remove()
+    {
+        return $this->status == 'remove';
     }
 }

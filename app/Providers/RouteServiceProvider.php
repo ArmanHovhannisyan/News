@@ -33,6 +33,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+
         Schema::defaultStringLength(191);
         if (Schema::hasTable('categories')) {
             View::share('categories', Category::select(['id','name_en', 'name_hy', 'name_ru'])->orderBy('id', 'asc')->get());

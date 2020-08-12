@@ -10,7 +10,8 @@ class Category extends Model
         'name_en', 'name_ru', 'name_hy',
     ];
 
-    public function News()
+
+    public function news()
     {
         return $this->hasMany(News::class);
     }
