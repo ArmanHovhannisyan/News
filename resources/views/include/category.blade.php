@@ -2,321 +2,80 @@
     <div class="container">
         <div class="row">
             <div class="col-md-9">
-                <div class="category_layout">
-                    <div class="item_caregory red"><h2><a href="category.html">Football</a></h2></div>
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="item feature_news_item">
-                                <div class="item_wrapper">
-                                    <div class="item_img">
-                                        <img class="img-responsive" src="assets/img/img_feature_news.jpg" alt="Chania">
-                                    </div><!--item_img-->
-                                    <div class="item_title_date">
-                                        <div class="news_item_title">
-                                            <h2><a href="#">22Leo Messi is boss of the bosses of the football world.</a></h2>
-                                        </div><!--news_item_title-->
-                                        <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                    </div><!--item_title_date-->
-                                </div><!--item_wrapper-->
-                                <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.
-                                </div><!--item_content-->
+                @foreach($categories as  $category)
+                    @if($category -> news()-> count())
+                        <div class="category_layout">
+                            <div class="item_caregory red"><h2><a
+                                        href="category.html">{!! $category["name_".App::getLocale()] !!}</a></h2></div>
+                            <div class="row">
+                                @foreach($news as $id => $new)
+                                    @if($new->category_id == $category->id)
+                                        @if($loop->first)
+                                            <div class="col-md-7">
+                                                <div class="item feature_news_item">
+                                                    <div class="item_wrapper">
+                                                        <div class="item_img">
+                                                            <img class="img-responsive"
+                                                                 src="{{asset('images/avatar/'.$new->avatar)}}"
+                                                                 alt="Chania">
+                                                        </div><!--item_img-->
+                                                        <div class="item_title_date">
+                                                            <div class="news_item_title">
+                                                                <h2>
+                                                                    <a href="#">{!!$new["title_".App::getLocale()]!!}</a>
+                                                                </h2>
+                                                            </div><!--news_item_title-->
+                                                            <div class="item_meta">{{$new->created_at}}</div>
+                                                        </div><!--item_title_date-->
+                                                    </div><!--item_wrapper-->
+                                                    <div
+                                                        class="item_content">{!!$new["short_description_".App::getLocale()]!!}
+                                                    </div><!--item_content-->
 
-                            </div><!--feature_news_item-->
-                        </div><!--col-md-7-->
+                                                </div><!--feature_news_item-->
+                                            </div><!--col-md-7-->
+                                        @endif
+                                    @endif
+                                @endforeach
 
-                        <div class="col-md-5">
-                            <div class="media_wrapper">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
 
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
+                                <div class="col-md-5">
+                                    <div class="media_wrapper">
+                                        @foreach($news as $id => $new)
+                                            @if($new->category_id == $category->id)
+                                                @if($id < 5)
+                                                <div class="media">
+                                                    <div class="media-left">
+                                                        <a href="#"><img class="media-object"
+                                                                         src="{{asset('images/avatar/'.$new->avatar)}} " width="100px"></a>
+                                                    </div><!--media-left-->
+                                                    <div class="media-body">
+                                                        <h3 class="media-heading"><a href="#">{!!$new["title_".App::getLocale()]!!}
+                                                            </a></h3>
 
-                                    </div><!--media-body-->
-                                </div><!--media-->
+{{--                                                        <p>{!!$new["short_description_".App::getLocale()]!!}</p>--}}
 
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list2.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
+                                                    </div><!--media-body-->
+                                                </div><!--media-->
+                                                @endif
+                                            @endif
+                                        @endforeach
+                                    </div><!--media_wrapper-->
 
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
+                                </div><!--col-md-5-->
 
-                                    </div><!--media-body-->
-                                </div><!--media-->
+                            </div><!--row-->
 
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list3.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list4.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-                            </div><!--media_wrapper-->
-
-                        </div><!--col-md-5-->
-                    </div><!--row-->
-                </div><!--category_layout-->
-
-                <div class="category_layout">
-                    <div class="item_caregory blue"><h2><a href="#">Hockey</a></h2></div>
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="item active feature_news_item">
-                                <div class="item_wrapper">
-                                    <div class="item_img">
-                                        <img class="img-responsive" src="assets/img/img-hockey.jpg" alt="Chania">
-                                    </div><!--item_img-->
-                                    <div class="item_title_date">
-                                        <div class="news_item_title">
-                                            <h2><a href="#">Argentia ahead two step playing hockey tournament</a></h2>
-                                        </div><!--news_item_title-->
-                                        <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                    </div><!--item_title_date-->
-                                </div><!--item_wrapper-->
-                                <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.
-                                </div>
-
-                            </div><!--feature_news_item-->
-                        </div><!--col-md-7-->
-
-                        <div class="col-md-5">
-                            <div class="media_wrapper">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list5.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list6.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list7.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list4.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-                            </div><!--media_wrapper-->
-                        </div><!--col-md-5-->
-                    </div><!--row-->
-                </div><!--category_layout-->
-
-                <div class="category_layout">
-                    <div class="item_caregory teal"><h2><a href="#">Tennis</a></h2></div>
-                    <div class="row">
-                        <div class="col-md-7">
-                            <div class="item active feature_news_item">
-                                <div class="item_wrapper">
-                                    <div class="item_img">
-                                        <img class="img-responsive" src="assets/img/img_feature_news3.jpg" alt="Chania">
-                                    </div><!--item_img-->
-                                    <div class="item_title_date">
-                                        <div class="news_item_title">
-                                            <h2><a href="#">Leo Messi is boss of the bosses of the football world.</a></h3>
-                                        </div><!--news_item_title-->
-                                        <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                    </div><!--item_title_date-->
-                                </div><!--item_wrapper-->
-                                <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque.
-                                </div>
-
-                            </div><!--feature_news_item-->
-                        </div><!--col-md-7-->
-
-                        <div class="col-md-5">
-                            <div class="media_wrapper">
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list7.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list8.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list9.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-
-                                <div class="media">
-                                    <div class="media-left">
-                                        <a href="#"><img class="media-object" src="assets/img/img-list4.jpg" alt="Generic placeholder image"></a>
-                                    </div><!--media-left-->
-                                    <div class="media-body">
-                                        <h3 class="media-heading"><a href="#">Machester United start the player
-                                            </a></h3>
-
-                                        <p>Sed perspiciatis unde omnis iste natus voluptatem.</p>
-
-                                    </div><!--media-body-->
-                                </div><!--media-->
-                            </div><!--media_wrapper-->
-                        </div><!--col-md-5-->
-                    </div><!--row-->
-                </div><!--category_layout-->
-
-                <div id="more_news_item" class="more_news_item">
-                    <div class="more_news_heading"><h2><a href="#">More News</a></h2></div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="feature_news_item">
-                                <div class="item">
-                                    <div class="item_wrapper">
-                                        <div class="item_img">
-                                            <img class="img-responsive" src="assets/img/img-news.jpg" alt="Chania">
-                                        </div><!--item_img-->
-                                        <div class="item_title_date">
-                                            <div class="news_item_title">
-                                                <h3><a href="#">Track Roboto the Real Tracker.</a></h3>
-                                            </div><!--news_item_title-->
-                                            <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        </div><!--item_title_date-->
-                                    </div><!--item_wrapper-->
-                                    <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit
-                                    </div><!--item_content-->
-
-                                </div><!--item-->
-                            </div><!--feature_news_item-->
-                        </div><!--col-xs-4-->
-
-                        <div class="col-md-4">
-                            <div class="feature_news_item">
-                                <div class="item active">
-                                    <div class="item_wrapper">
-                                        <div class="item_img">
-                                            <img class="img-responsive" src="assets/img/img-news1.jpg" alt="Chania">
-                                        </div><!--item_img-->
-                                        <div class="item_title_date">
-                                            <div class="news_item_title">
-                                                <h3><a href="#">Track Roboto the Real Tracker.</a></h3>
-                                            </div><!--news_item_title-->
-                                            <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        </div><!--item_title_date-->
-                                    </div><!--item_wrapper-->
-                                    <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit
-                                    </div><!--item_content-->
-
-                                </div><!--item-->
-                            </div><!--feature_news_item-->
-                        </div><!--col-xs-4-->
-
-                        <div class="col-md-4">
-                            <div class="feature_news_item">
-                                <div class="item active">
-                                    <div class="item_wrapper">
-                                        <div class="item_img">
-                                            <img class="img-responsive" src="assets/img/img-news2.jpg" alt="Chania">
-                                        </div><!--item_img-->
-                                        <div class="item_title_date">
-                                            <div class="news_item_title">
-                                                <h3><a href="#">Track Roboto the Real Tracker.</a></h3>
-                                            </div><!--news_item_title-->
-                                            <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        </div><!--item_title_date-->
-                                    </div><!--item_wrapper-->
-                                    <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit
-                                    </div><!--item_content-->
-
-                                </div><!--item-->
-                            </div><!--feature_news_item-->
-                        </div><!--col-xs-4-->
-                    </div><!--row-->
-                </div><!--more_news_item-->
+                        </div><!--category_layout-->
+                    @endif
+                @endforeach
             </div><!--col-md-9-->
 
             <div class="col-md-3">
 
                 <div class="tab sitebar">
                     <ul class="nav nav-tabs">
-                        <li class="active"><a  href="#1" data-toggle="tab">Latest</a></li>
+                        <li class="active"><a href="#1" data-toggle="tab">Latest</a></li>
                         <li><a href="#2" data-toggle="tab">Populer</a></li>
                     </ul>
 
@@ -324,7 +83,8 @@
                         <div class="tab-pane active" id="1">
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/img/img-list.jpg" alt="Generic placeholder image"></a>
+                                    <a href="#"><img class="media-object" src="assets/img/img-list.jpg"
+                                                     alt="Generic placeholder image"></a>
                                 </div><!--media-left-->
                                 <div class="media-body">
                                     <h4 class="media-heading"><a href="#">Spain going to made class football</a></h4>
@@ -340,7 +100,8 @@
 
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/img/img-list5.jpg" alt="Generic placeholder image"></a>
+                                    <a href="#"><img class="media-object" src="assets/img/img-list5.jpg"
+                                                     alt="Generic placeholder image"></a>
                                 </div><!--media-left-->
                                 <div class="media-body">
                                     <h4 class="media-heading"><a href="#">Spain going to made class football</a></h4>
@@ -356,7 +117,8 @@
 
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/img/img-list2.jpg" alt="Generic placeholder image"></a>
+                                    <a href="#"><img class="media-object" src="assets/img/img-list2.jpg"
+                                                     alt="Generic placeholder image"></a>
                                 </div><!--media-left-->
                                 <div class="media-body">
                                     <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
@@ -372,7 +134,8 @@
 
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/img/img-list3.jpg" alt="Generic placeholder image"></a>
+                                    <a href="#"><img class="media-object" src="assets/img/img-list3.jpg"
+                                                     alt="Generic placeholder image"></a>
                                 </div><!--media-left-->
                                 <div class="media-body">
                                     <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
@@ -390,7 +153,8 @@
                         <div class="tab-pane" id="2">
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/img/img-list4.jpg" alt="Generic placeholder image"></a>
+                                    <a href="#"><img class="media-object" src="assets/img/img-list4.jpg"
+                                                     alt="Generic placeholder image"></a>
                                 </div><!--media-left-->
                                 <div class="media-body">
                                     <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
@@ -406,7 +170,8 @@
 
                             <div class="media">
                                 <div class="media-left">
-                                    <a href="#"><img class="media-object" src="assets/img/img-list.jpg" alt="Generic placeholder image"></a>
+                                    <a href="#"><img class="media-object" src="assets/img/img-list.jpg"
+                                                     alt="Generic placeholder image"></a>
                                 </div><!--media-left-->
                                 <div class="media-body">
                                     <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
@@ -424,18 +189,18 @@
                 </div><!--tab-->
 
                 <div class="ad">
-                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
-                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
-                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
-                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img" />
+                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img"/>
+                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img"/>
+                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img"/>
+                    <img class="img-responsive" src="assets/img/img-sitebar.jpg" alt="img"/>
                 </div><!--ad-->
 
                 <div class="ad">
-                    <img class="img-responsive" src="assets/img/img-ad.jpg" alt="img" />
+                    <img class="img-responsive" src="assets/img/img-ad.jpg" alt="img"/>
                 </div>
 
                 <div class="ad">
-                    <img class="img-responsive" src="assets/img/img-ad2.jpg" alt="img" />
+                    <img class="img-responsive" src="assets/img/img-ad2.jpg" alt="img"/>
                 </div>
 
                 <div class="most_comment">
@@ -444,48 +209,52 @@
                     </div>
                     <div class="media">
                         <div class="media-left">
-                            <a href="#"><img class="media-object" src="assets/img/img-list.jpg" alt="Generic placeholder image"></a>
+                            <a href="#"><img class="media-object" src="assets/img/img-list.jpg"
+                                             alt="Generic placeholder image"></a>
                         </div><!--media-left-->
                         <div class="media-body">
                             <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
                             <div class="comment_box">
-                                <div class="comments_icon"> <i class="fa fa-comments" aria-hidden="true"></i></div>
+                                <div class="comments_icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
                                 <div class="comments"><a href="#">9 Comments</a></div>
                             </div><!--comment_box-->
                         </div><!--media-body-->
                     </div><!--media-->
                     <div class="media">
                         <div class="media-left">
-                            <a href="#"><img class="media-object" src="assets/img/img-list2.jpg" alt="Generic placeholder image"></a>
+                            <a href="#"><img class="media-object" src="assets/img/img-list2.jpg"
+                                             alt="Generic placeholder image"></a>
                         </div><!--media-left-->
                         <div class="media-body">
                             <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
                             <div class="comment_box">
-                                <div class="comments_icon"> <i class="fa fa-comments" aria-hidden="true"></i></div>
+                                <div class="comments_icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
                                 <div class="comments"><a href="#">20 Comments</a></div>
                             </div><!--comment_box-->
                         </div><!--media-body-->
                     </div><!--media-->
                     <div class="media">
                         <div class="media-left">
-                            <a href="#"><img class="media-object" src="assets/img/img-list3.jpg" alt="Generic placeholder image"></a>
+                            <a href="#"><img class="media-object" src="assets/img/img-list3.jpg"
+                                             alt="Generic placeholder image"></a>
                         </div><!--media-left-->
                         <div class="media-body">
                             <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
                             <div class="comment_box">
-                                <div class="comments_icon"> <i class="fa fa-comments" aria-hidden="true"></i></div>
+                                <div class="comments_icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
                                 <div class="comments"><a href="#">23 Comments</a></div>
                             </div><!--comment_box-->
                         </div><!--media-body-->
                     </div><!--media-->
                     <div class="media">
                         <div class="media-left">
-                            <a href="#"><img class="media-object" src="assets/img/img-list3.jpg" alt="Generic placeholder image"></a>
+                            <a href="#"><img class="media-object" src="assets/img/img-list3.jpg"
+                                             alt="Generic placeholder image"></a>
                         </div><!--media-left-->
                         <div class="media-body">
                             <h3 class="media-heading"><a href="#">Spain going to made class football</a></h3>
                             <div class="comment_box">
-                                <div class="comments_icon"> <i class="fa fa-comments" aria-hidden="true"></i></div>
+                                <div class="comments_icon"><i class="fa fa-comments" aria-hidden="true"></i></div>
                                 <div class="comments"><a href="#">44 Comments</a></div>
                             </div><!--comment_box-->
                         </div><!--media-body-->

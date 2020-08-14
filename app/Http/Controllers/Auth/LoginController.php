@@ -30,10 +30,10 @@ class LoginController extends Controller
 
     protected function redirectTo()
     {
-        if (auth()->user()->status == 'approved') {
+        if (auth()->user()->status == 'Approved') {
             return '/news/admin';
         }
-        return '/';
+        return redirect()->route('login');
     }
     /**
      * Create a new controller instance.

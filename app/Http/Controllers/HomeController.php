@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Category;
 use App\News;
+use App\Services\HomeServices;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 
@@ -12,21 +13,22 @@ class HomeController extends Controller
 
     public function index(Request $request )
     {
-//        $category = News::with('category')->where('category_id','=' , 4)->get();
-//        dd($category);
+        $news = News::with('category')->orderBy('id','desc')->get();
+        $categories = Category::with('news')->paginate(20);
 
-        return view('index');
+
+
+        return view('index',compact('news','categories'));
     }
 
     public function changeLocale($locale)
     {
-        $availableLocales = ['ru', 'en' , 'hy'];
-        if (!in_array($locale, $availableLocales)) {
-            $locale = config('app.locale');
-        }
-        session(['locale' => $locale]);
-        App::setLocale($locale);
+        HomeServices::changeLocale($locale);
         return redirect()->back();
+    }
+
+    public function carousel(){
+
     }
 
 }

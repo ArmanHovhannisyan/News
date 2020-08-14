@@ -125,21 +125,9 @@
                             <i class="fas fa-tachometer-alt"></i>Dashboard</a>
                         <ul class="list-unstyled navbar__sub-list js-sub-list">
                             <li>
-                                <a href="{{url('index')}}">Dashboard 1</a>
+                                <a href="">Dashboard 1</a>
                             </li>
                         </ul>
-                    </li>
-                    <li>
-                        <a href="{{ url('/chart') }}">
-                            <i class="fas fa-chart-bar"></i>Charts</a>
-                    </li>
-                    <li>
-                        <a href="{{ url('/table') }}">
-                            <i class="fas fa-table"></i>Tables</a>
-                    </li>
-                    <li>
-                        <a href="{{url('form')}}">
-                            <i class="far fa-check-square"></i>Forms</a>
                     </li>
                     <li class="has-sub">
                         <a class="js-arrow" href="#">
@@ -172,10 +160,12 @@
                             </li>
                         </ul>
                     </li>
+                    @if(Auth::user()->type_admin_id == 2 )
                     <li class="has-sub">
                         <a class="" href="{{route('admin')}}">
                             <i class="fa fa-user"></i>User</a>
                     </li>
+                        @endif
                 </ul>
             </nav>
         </div>
@@ -308,30 +298,29 @@
                         </div>
                         <div class="account-wrap">
                             <div class="account-item clearfix js-item-menu">
-                                <div class="image">
-                                    <img src="images/icon/avatar-01.jpg" alt="John Doe">
-                                </div>
+{{--                                <div class="image">--}}
+{{--                                </div>--}}
                                 <div class="content">
-                                    <a class="js-acc-btn" href="#">john doe</a>
+                                    <a class="js-acc-btn" href="#">{{Auth::user()->name}}</a>
                                 </div>
                                 <div class="account-dropdown js-dropdown">
                                     <div class="info clearfix">
-                                        <div class="image">
-                                            <a href="#">
-                                                <img src="images/icon/avatar-01.jpg" alt="John Doe">
-                                            </a>
-                                        </div>
                                         <div class="content">
                                             <h5 class="name">
-                                                <a href="#">john doe</a>
+                                                <a href="#">{{Auth::user()->name}}</a>
                                             </h5>
-                                            <span class="email">johndoe@example.com</span>
+                                            <span class="email">{{Auth::user()->email}}</span>
                                         </div>
                                     </div>
                                     <div class="account-dropdown__body">
                                         <div class="account-dropdown__item">
-                                            <a href="#">
-                                                <i class="zmdi zmdi-account"></i>Account</a>
+                                            <a href="{{ route('locale', 'en') }}">En</a>
+                                        </div>
+                                        <div class="account-dropdown__item">
+                                            <a href="{{ route('locale', 'hy') }}">En</a>
+                                        </div>
+                                        <div class="account-dropdown__item">
+                                            <a href="{{ route('locale', 'ru') }}">En</a>
                                         </div>
                                         <div class="account-dropdown__item">
                                             <a href="#">
@@ -354,11 +343,6 @@
                                             </form>
                                             <i class="zmdi zmdi-power"></i></a>
                                     </div>
-                                    <ul>
-                                        <li><a href="{{ route('locale', 'en') }}">En</a></li>
-                                        <li><a href="{{ route('locale', 'hy') }}">Hy</a></li>
-                                        <li><a href="{{ route('locale', 'ru') }}">Ru</a></li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>

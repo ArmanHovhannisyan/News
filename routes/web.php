@@ -43,7 +43,8 @@ Route::middleware(['middleware' => 'status'])->group(function () {
 
     //admin
     Route::get('/news/admin/user', 'AdminController@index')->name('admin');
-    Route::get('/news/admin/show/{id}', 'AdminController@show')->name('admin.show');
+    Route::get('/admin/show/{id}', 'AdminController@show')->name('admin.show');
+    Route::post('/admin/update/{id}', 'AdminController@update')->name('admin.update');
 
 });
 

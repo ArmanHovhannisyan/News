@@ -3,14 +3,14 @@
 
 
 
-        <!-- Feature Carousel Section -->
-        @include('include.carousel')
 
-        <!-- Feature Category Section & sidebar -->
+{{--        @include('include.carousel')--}}
+
+
         @include('include.category')
 
         <!-- Feature Video Item -->
-        @include('include.footer_vidio')
+{{--        @include('include.footer_vidio')--}}
 
 
 

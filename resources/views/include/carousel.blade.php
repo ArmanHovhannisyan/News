@@ -1,7 +1,7 @@
 <section id="feature_news_section" class="feature_news_section section_wrapper">
     <div class="container">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div class="feature_news_carousel">
                     <div id="featured-news-carousal" class="carousel slide" data-ride="carousel">
                         <!-- Wrapper for slides -->
@@ -53,54 +53,6 @@
                         </div><!--carousel-inner-->
                     </div><!--carousel-->
                 </div><!--feature_news_carousel-->
-            </div><!--col-md-6-->
-
-            <div class="col-md-6">
-                <div class="feature_news_static">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="feature_news_item">
-                                <div class="item active">
-                                    <div class="item_wrapper">
-                                        <div class="item_img">
-                                            <img class="img-responsive" src="assets/img/img_feature.jpg" alt="Chania">
-                                        </div> <!--item_img-->
-                                        <div class="item_title_date">
-                                            <div class="news_item_title">
-                                                <h2><a href="single.html">Track Roboto the Real Tracker.</a></h2>
-                                            </div>
-                                            <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        </div><!--item_title_date-->
-                                    </div> <!--item_wrapper-->
-                                    <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit
-                                    </div>
-
-                                </div><!--item-->
-                            </div><!--feature_news_item-->
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="feature_news_item">
-                                <div class="item active">
-                                    <div class="item_wrapper">
-                                        <div class="item_img">
-                                            <img class="img-responsive" src="assets/img/img_feature2.jpg" alt="Chania">
-                                        </div> <!--item_img-->
-                                        <div class="item_title_date">
-                                            <div class="news_item_title">
-                                                <h2><a href="single.html">David villa change his team last year.</a></h2>
-                                            </div>
-                                            <div class="item_meta"><a href="#">20Aug- 2015,</a> by:<a href="#">Jhonson</a></div>
-                                        </div><!--item_title_date-->
-                                    </div> <!--item_wrapper-->
-                                    <div class="item_content">Sed ut perspiciatis unde omnis iste natus error sit
-                                    </div>
-
-                                </div><!--item-->
-                            </div><!--feature_news_item-->
-                        </div><!--col-xs-6-->
-                    </div><!--row-->
-                </div><!--feature_news_static-->
             </div><!--col-md-6-->
         </div><!--row-->
     </div><!--container-->

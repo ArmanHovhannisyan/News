@@ -20,7 +20,7 @@
                             @endif
                             <div class="card-body card-block">
 
-                                <form action="{{route('create_news')}}" method="post" enctype="multipart/form-data">
+                                <form action="{{route('admin.update',$users->id)}}" method="post" enctype="multipart/form-data">
                                     @csrf
 
 

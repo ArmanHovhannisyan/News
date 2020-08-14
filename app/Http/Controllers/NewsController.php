@@ -1,16 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Category;
 use App\Hashtag;
 use App\Http\Requests\NewsRequest;
-use Illuminate\Support\Facades\File;
-use Intervention\Image\ImageManager;
+use App\Images;
+use App\Services\NewsServices;
 use App\News;
 use Illuminate\Http\Request;
-use Intervention\Image\Facades\Image;
-use App\Images;
+
+
 
 class NewsController extends Controller
 {
@@ -42,31 +40,8 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        $photo = time() . '.' . request()->avatar->getClientOriginalExtension();
-        Image::make($_FILES['avatar']['tmp_name'])->resize(900, 550)->save(public_path() . '/images/avatar/' . $photo);
-        $news = News::create([
-            'category_id' => $request->category_id,
-            'title_ru' => $request->title_ru,
-            'title_en' => $request->title_en,
-            'title_hy' => $request->title_hy,
-            'short_description_ru' => $request->short_description_ru,
-            'short_description_en' => $request->short_description_en,
-            'short_description_hy' => $request->short_description_hy,
-            'long_description_en' => $request->long_description_en,
-            'long_description_ru' => $request->long_description_ru,
-            'long_description_hy' => $request->long_description_hy,
-            'avatar' => $photo,
-        ]);
-
-        $images = new Images();
-        $image_path = $request->file('image_path');
-        $images->upload_images($image_path, $news);
-        $hashtag = new Hashtag();
-        $hashtags = $request->hashtags;
-        $hashtag->upload_hashtags($hashtags, $news);
-
+        NewsServices::store($request);
         return back()->with('message', 'Created successfully');
-
     }
 
     /**
@@ -77,8 +52,7 @@ class NewsController extends Controller
      */
     public function show($id)
     {
-        News::findOrFail($id);
-        $news_list = News::with('category')->where('id', $id)->get();
+        $news_list = NewsServices::show($id);
 
         return view('admin.news.news', compact('news_list'));
     }
@@ -91,9 +65,9 @@ class NewsController extends Controller
     public function edit($id)
     {
         $news = News::findOrFail($id);
-        $hashtag = Hashtag::with('news')->where('news_id',$id)->get();
-        $img = Images::with('news')->where('news_id',$id)->get();
-        return view('admin.news.news_edit',compact('news','hashtag','img'));
+        $hashtag = Hashtag::with('news')->where('news_id', $id)->get();
+        $img = Images::with('news')->where('news_id', $id)->get();
+        return view('admin.news.news_edit', compact('news', 'hashtag', 'img'));
     }
 
     /**
@@ -105,42 +79,7 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $news = News::findOrFail($id);
-
-
-        if ($request->avatar != Null) {
-            $image_path = public_path("images/avatar/" . $news->avatar);
-
-            if (file_exists($image_path)) {
-                //File::delete($image_path);
-                File::delete($image_path);
-            }
-            $photo = time() . '.' . request()->avatar->getClientOriginalExtension();
-            Image::make($_FILES['avatar']['tmp_name'])->resize(900, 550)->save(public_path() . '/images/avatar/' . $photo);
-        } else {
-            $photo = $news->avatar;
-        }
-        News::where('id', $id)->update([
-            'category_id' => $request->category_id,
-            'title_ru' => $request->title_ru,
-            'title_en' => $request->title_en,
-            'title_hy' => $request->title_hy,
-            'short_description_ru' => $request->short_description_ru,
-            'short_description_en' => $request->short_description_en,
-            'short_description_hy' => $request->short_description_hy,
-            'long_description_en' => $request->long_description_en,
-            'long_description_ru' => $request->long_description_ru,
-            'long_description_hy' => $request->long_description_hy,
-            'avatar' => $photo,
-        ]);
-
-        $images = new Images();
-        $image_path = $request->file('image_path');
-        $images->upload_images($image_path, $news);
-        $hashtag = new Hashtag();
-        Hashtag::with('news')->where('news_id',$id)->delete();
-        $hashtags = $request->hashtags;
-        $hashtag->upload_hashtags($hashtags, $news);
+        NewsServices::update($request,$id);
 
         return back()->with('message', 'Update successfully');
     }
@@ -153,34 +92,21 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        $news = News::findOrFail($id);
-        $image_list = Images::with('news')->where('news_id', $id)->get();
-        $image_path = public_path("images/avatar/" . $news->avatar);
-
-        if (file_exists($image_path)) {
-            //File::delete($image_path);
-            File::delete($image_path);
-        }
-
-        $img = new Images();
-        $img->delete_image($image_list);
-        $hashtags = Hashtag::with('news')->where('news_id', $id)->delete();
-        $news->delete();
+        NewsServices::destroy($id);
         return redirect()->route('home')->with('message', 'The news has been deleted');
     }
 
-    public function delete_hashtag(){
+    public function delete_hashtag()
+    {
         $id = $_GET['id'];
         $hashtag = Hashtag::findOrFail($id);
         $hashtag->delete();
     }
 
-    public function delete_img(Request $request){
-        $img = new Images();
-        $id = $request->img_path;
-        Images::findOrFail($id);
-        $image_list = Images::with('news')->where('id', $id)->get();
-        $img->delete_image($image_list);
+    public function delete_img(Request $request)
+    {
+
+        NewsServices::delete_img($request);
         return back()->with('message', 'Delete image successfully');
     }
 }

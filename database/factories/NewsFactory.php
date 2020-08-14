@@ -20,6 +20,6 @@ $factory->define(News::class, function (Faker $faker) {
         'long_description_ru' => $faker->realText(200),
         'long_description_hy' => $faker->realText(200),
         'view' => $faker->randomDigit,
-        'avatar' => $faker->imageUrl($width = 200, $height = 200),
+        'avatar' => $faker->imageUrl($width = 890, $height = 610),
     ];
 });
