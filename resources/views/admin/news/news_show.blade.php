@@ -7,28 +7,27 @@
             <div class="section__content section__content--p30">
                 <div class="container-fluid">
 
-                    @if($categoryies->count())
+                    @if($news_info->count())
                     <div class="row">
                         <div class="col-lg-12" style="display: flex; justify-content: space-around; flex-wrap: wrap;"
                              id="hello">
 
 
-                                @foreach($categoryies as $news)
+                                @foreach($news_info as $news)
                                     <div class="card" style="width: 18rem">
                                         <img class="card-img-top" src="{{asset('images/avatar/'.$news->avatar)}}"
                                              alt="Card image cap">
                                         <div class="card-body">
                                             <h5 class="card-title">{!!$news["title_".App::getLocale()]!!}</h5>
-                                            <p class="card-text">{!!$news["short_description_".App::getLocale()]!!}</p>
-                                            <p class="card-text">{{Str::limit($news["long_description_".App::getLocale()], 25, $end = '...') }}</p>
-                                            <a href="{{route('show_news',$news->id)}}" class="btn btn-primary">Show</a>
+                                            <p class="card-text">{!! Str::substr($news["short_description_".App::getLocale()],0,40)!!}...</p>
+                                            <a href="{{route('news.show',$news->id)}}" class="btn btn-primary">Show</a>
                                         </div>
                                     </div>
                                 @endforeach
 
 
                         </div>
-                        {{ $categoryies->links() }}
+                        {{ $news_info->links() }}
                     </div>
                     @else
                         <div class="card" style="padding: 8px">

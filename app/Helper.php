@@ -9,54 +9,82 @@ use Intervention\Image\Facades\Image;
 
 class Helper
 {
-    public static function upload_images($image_path, $news){
-        if (!is_null($image_path)) {
+    public  function upload_images($image_path, $news_update)
+    {
+            $img = new Images();
             foreach ($image_path as $image) {
-
-
-                $img = new Images();
                 $image_name = uniqid() . '.' . $image->getClientOriginalExtension();
                 $path = public_path('/images');
-                $imgx = Image::make($image->getRealPath());
-                $imgx->resize(400, 244, function ($constraint) {
+                $images = Image::make($image->getRealPath());
+                $images->resize(400, 244, function ($constraint) {
                     $constraint->aspectRatio();
                 })->save($path . '/' . $image_name);
 
-                $img->image_path = $image_name;
-                $img->news_id = $news->id;
-                $img->save();
+                $img->create([
+                    'image_path'=>$image_name,
+                    'news_id' => $news_update->id
+                ]);
             }
-        }
+
+            return true;
+
     }
 
-    public static function delete_image($image_list){
+    public  function delete_image($image_list)
+    {
+        $img = new Images();
         foreach ($image_list as $id => $images) {
-            $img = Images::findOrFail($images->id);
 
-            $image_path = public_path("images/" . $img->image_path);
+            $img->findOrFail($images->id);
+
+            $image_path = public_path("images/" . $images->image_path);
 
             if (file_exists($image_path)) {
-                //File::delete($image_path);
                 File::delete($image_path);
             }
+            else {
+                return back()->with('error','Image Not found');
+            }
+
             $images->delete();
             $img->delete();
 
+            return true;
         }
     }
 
-    public static function upload_hashtags($hashtags, $news)
+    public  function delete_avatar($news)
+    {
+        $image_path = public_path("images/avatar/" . $news->avatar);
+
+        if (file_exists($image_path)) {
+            File::delete($image_path);
+        }
+        else {
+            return back()->with('error','Image Not found');
+        }
+
+        return true;
+    }
+
+
+
+    public  function created_view($id,$ip, $news)
     {
 
-        if (!is_null($hashtags)) {
-            foreach ($hashtags as $hashtag) {
-                if (!is_null($hashtag)) {
-                    Hashtag::create([
-                        "name" => $hashtag,
-                        "news_id" => $news->id,
-                    ]);
-                }
-            }
+        $visits = View_news::where([
+            ['ip', '=', $ip],
+            ['news_id', '=', $id]
+        ])->get();
+
+        if (!$visits->count()) {
+            View_news::insert([
+                'news_id' => $id,
+                'ip' => $ip,
+
+            ]);
+
         }
+
     }
 }

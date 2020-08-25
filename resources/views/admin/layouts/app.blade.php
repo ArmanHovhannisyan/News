@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{!! App::getLocale() !!}">
 
 <head>
     <!-- Required meta tags-->
@@ -47,7 +47,7 @@
             <div class="container-fluid">
                 <div class="header-mobile-inner">
                     <a class="logo" href="{{url('index')}}">
-                        <img src="admin/images/icon/logo.png" alt="CoolAdmin"/>
+                        <img src="{{asset('admin/images/icon/logo.png')}}" alt="CoolAdmin"/>
                     </a>
                     <button class="hamburger hamburger--slider" type="button">
                             <span class="hamburger-box">
@@ -61,13 +61,8 @@
             <div class="container-fluid">
                 <ul class="navbar-mobile__list list-unstyled">
                     <li class="has-sub">
-                        <a class="js-arrow" href="#">
+                        <a class="js-arrow" href="{{url('index')}}">
                             <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
-                            <li>
-                                <a href="{{url('index')}}">Dashboard 1</a>
-                            </li>
-                        </ul>
                     </li>
                     <li>
                         <a href="{{ url('/chart') }}">
@@ -89,12 +84,28 @@
                                 @foreach($categories as $category)
 
                                     <li>
-                                        <a href="{{route('show_category',$category->id)}}">{!!$category["name_".App::getLocale()]!!}</a>
+                                        <a href="{{route('category.show',$category->id)}}">{!!$category["name_".App::getLocale()]!!}</a>
                                     </li>
                                 @endforeach
                             @endif
                         </ul>
                     </li>
+
+                    <li class="has-sub">
+                        <a class="js-arrow" href="#">
+                            <i class="fas fa-copy"></i>Edit Category</a>
+                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                            @if($categories)
+                                @foreach($categories as $category)
+
+                                    <li>
+                                        <a href="{{route('category.edit',$category->id)}}">{!!$category["name_".App::getLocale()]!!}</a>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </li>
+
                     <li class="has-sub">
                         <a class="js-arrow" href="#">
                             <i class="fas fa-desktop"></i>UI Elements</a>
@@ -114,20 +125,15 @@
     <aside class="menu-sidebar d-none d-lg-block">
         <div class="logo">
             <a href="#">
-                <img src="admin/images/icon/logo.png" alt="Cool Admin"/>
+                <img src="{{asset('admin/images/icon/logo.png')}}" alt="Cool Admin"/>
             </a>
         </div>
         <div class="menu-sidebar__content js-scrollbar1">
             <nav class="navbar-sidebar">
                 <ul class="list-unstyled navbar__list">
                     <li class="active has-sub">
-                        <a class="js-arrow" href="#">
+                        <a class="js-arrow" href="{{route('news.index')}}">
                             <i class="fas fa-tachometer-alt"></i>Dashboard</a>
-                        <ul class="list-unstyled navbar__sub-list js-sub-list">
-                            <li>
-                                <a href="">Dashboard 1</a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="has-sub">
                         <a class="js-arrow" href="#">
@@ -137,18 +143,32 @@
                                 @foreach($categories as $category)
 
                                     <li>
-                                        <a href="{{route('show_category',$category->id)}}">{!!$category["name_".App::getLocale()]!!}</a>
+                                        <a href="{{route('category.show',$category->id)}}">{!!$category["name_".App::getLocale()]!!}</a>
                                     </li>
                                 @endforeach
                             @endif
                         </ul>
                     </li>
                     <li class="has-sub">
-                        <a class="" href="{{route('category')}}">
+                        <a class="js-arrow" href="#">
+                            <i class="fas fa-copy"></i>Edit Category</a>
+                        <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                            @if($categories)
+                                @foreach($categories as $category)
+
+                                    <li>
+                                        <a href="{{route('category.edit',$category->id)}}">{!!$category["name_".App::getLocale()]!!}</a>
+                                    </li>
+                                @endforeach
+                            @endif
+                        </ul>
+                    </li>
+                    <li class="has-sub">
+                        <a class="" href="{{route('category.create')}}">
                             <i class="fa fa-product-hunt"></i>Add Category</a>
                     </li>
                     <li class="has-sub">
-                        <a class="" href="{{route('news')}}">
+                        <a class="" href="{{route('news.create')}}">
                             <i class="fa fa-product-hunt"></i>Add News</a>
                     </li>
                     <li class="has-sub">
@@ -160,12 +180,20 @@
                             </li>
                         </ul>
                     </li>
-                    @if(Auth::user()->type_admin_id == 2 )
+
+                        <li class="has-sub">
+                            <a class="" href="{{route('admin_info.index')}}">
+                                <i class="fa fa-user"></i>User</a>
+                        </li>
                     <li class="has-sub">
-                        <a class="" href="{{route('admin')}}">
-                            <i class="fa fa-user"></i>User</a>
+                        <a class="" href="{{route('user.create')}}">
+                            <i class="fa fa-user"></i>Add User</a>
                     </li>
-                        @endif
+
+                    <li class="has-sub">
+                        <a class="" href="{{route('admin.online')}}">
+                            <i class="fa fa-user"></i>Online Chat</a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -194,7 +222,7 @@
                                     </div>
                                     <div class="mess__item">
                                         <div class="image img-cir img-40">
-                                            <img src="admin/images/icon/avatar-06.jpg" alt="Michelle Moreno">
+                                            <img src="{{asset('admin/images/icon/avatar-06.jpg')}}" alt="Michelle Moreno">
                                         </div>
                                         <div class="content">
                                             <h6>Michelle Moreno</h6>
@@ -204,7 +232,7 @@
                                     </div>
                                     <div class="mess__item">
                                         <div class="image img-cir img-40">
-                                            <img src="images/icon/avatar-04.jpg" alt="Diane Myers">
+                                            <img src="{{asset('admin/images/icon/avatar-04.jpg')}}" alt="Diane Myers">
                                         </div>
                                         <div class="content">
                                             <h6>Diane Myers</h6>
@@ -226,7 +254,7 @@
                                     </div>
                                     <div class="email__item">
                                         <div class="image img-cir img-40">
-                                            <img src="images/icon/avatar-06.jpg" alt="Cynthia Harvey">
+                                            <img src="{{asset('admin/images/icon/avatar-06.jpg')}}" alt="Cynthia Harvey">
                                         </div>
                                         <div class="content">
                                             <p>Meeting about new dashboard...</p>
@@ -235,7 +263,7 @@
                                     </div>
                                     <div class="email__item">
                                         <div class="image img-cir img-40">
-                                            <img src="images/icon/avatar-05.jpg" alt="Cynthia Harvey">
+                                            <img src="{{asset('admin/images/icon/avatar-05.jpg')}}" alt="Cynthia Harvey">
                                         </div>
                                         <div class="content">
                                             <p>Meeting about new dashboard...</p>
@@ -244,7 +272,7 @@
                                     </div>
                                     <div class="email__item">
                                         <div class="image img-cir img-40">
-                                            <img src="images/icon/avatar-04.jpg" alt="Cynthia Harvey">
+                                            <img src="{{asset('admin/images/icon/avatar-04.jpg')}}" alt="Cynthia Harvey">
                                         </div>
                                         <div class="content">
                                             <p>Meeting about new dashboard...</p>
@@ -256,50 +284,28 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="noti__item js-item-menu">
-                                <i class="zmdi zmdi-notifications"></i>
-                                <span class="quantity">3</span>
-                                <div class="notifi-dropdown js-dropdown">
-                                    <div class="notifi__title">
-                                        <p>You have 3 Notifications</p>
-                                    </div>
-                                    <div class="notifi__item">
-                                        <div class="bg-c1 img-cir img-40">
-                                            <i class="zmdi zmdi-email-open"></i>
-                                        </div>
-                                        <div class="content">
-                                            <p>You got a email notification</p>
-                                            <span class="date">April 12, 2018 06:50</span>
-                                        </div>
-                                    </div>
-                                    <div class="notifi__item">
-                                        <div class="bg-c2 img-cir img-40">
-                                            <i class="zmdi zmdi-account-box"></i>
-                                        </div>
-                                        <div class="content">
-                                            <p>Your account has been blocked</p>
-                                            <span class="date">April 12, 2018 06:50</span>
-                                        </div>
-                                    </div>
-                                    <div class="notifi__item">
-                                        <div class="bg-c3 img-cir img-40">
-                                            <i class="zmdi zmdi-file-text"></i>
-                                        </div>
-                                        <div class="content">
-                                            <p>You got a new file</p>
-                                            <span class="date">April 12, 2018 06:50</span>
-                                        </div>
-                                    </div>
-                                    <div class="notifi__footer">
-                                        <a href="#">All notifications</a>
-                                    </div>
-                                </div>
-                            </div>
+{{--                            <div class="noti__item js-item-menu">--}}
+{{--                                <i class="zmdi zmdi-notifications"></i>--}}
+{{--                                <span class="quantity">{{$user_a->count()}}</span>--}}
+{{--                                <div class="notifi-dropdown js-dropdown">--}}
+{{--                                    <div class="notifi__item">--}}
+{{--                                        <div class="content">--}}
+{{--                                            @foreach($user_a as $user_b)--}}
+{{--                                                <p><a class="" href="{{route('admin.index')}}">--}}
+{{--                                                   {{$user_b->name}}</a></p>--}}
+{{--                                            @endforeach--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                    <div class="notifi__footer">--}}
+{{--                                        <a href="#">All notifications</a>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                         </div>
                         <div class="account-wrap">
                             <div class="account-item clearfix js-item-menu">
-{{--                                <div class="image">--}}
-{{--                                </div>--}}
+                                {{--                                <div class="image">--}}
+                                {{--                                </div>--}}
                                 <div class="content">
                                     <a class="js-acc-btn" href="#">{{Auth::user()->name}}</a>
                                 </div>
@@ -313,17 +319,29 @@
                                         </div>
                                     </div>
                                     <div class="account-dropdown__body">
+
+
+                                        <ul class="navbar-mobile__list list-unstyled">
+                                            <li class="account-dropdown__item">
+                                                <a class="js-arrow" href="#">
+                                                    <i class="fas fa-copy"></i>Language</a>
+                                                <ul class="navbar-mobile-sub__list list-unstyled js-sub-list">
+                                                    <li>
+                                                        <a href="{{ route('locale', 'ru') }}">Ru</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('locale', 'hy') }}">Hy</a>
+                                                    </li>
+                                                    <li>
+                                                        <a href="{{ route('locale', 'en') }}">En</a>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                        </ul>
+
+
                                         <div class="account-dropdown__item">
-                                            <a href="{{ route('locale', 'en') }}">En</a>
-                                        </div>
-                                        <div class="account-dropdown__item">
-                                            <a href="{{ route('locale', 'hy') }}">En</a>
-                                        </div>
-                                        <div class="account-dropdown__item">
-                                            <a href="{{ route('locale', 'ru') }}">En</a>
-                                        </div>
-                                        <div class="account-dropdown__item">
-                                            <a href="#">
+                                            <a href="{{route('user.index')}}">
                                                 <i class="zmdi zmdi-settings"></i>Setting</a>
                                         </div>
                                         <div class="account-dropdown__item">

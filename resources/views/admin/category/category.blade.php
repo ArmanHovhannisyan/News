@@ -23,8 +23,9 @@
                                     </div>
                                 @endif
                                 <div class="card-body card-block">
-                                    <form action="{{route('create_category')}}" method="post" class="">
+                                    <form action="{{route('category.store')}}" method="post" class="">
                                         @csrf
+                                        @method('POST')
                                         <div class="form-group">
                                             <div class="card-header">{{__('English')}}</div>
                                             <div class="input-group">

@@ -35,6 +35,7 @@ class NewsUpdateRequest extends FormRequest
             'long_description_ru' => 'required',
             'long_description_hy' => 'required',
             'avatar' => 'mimes:jpeg,jpg,png',
+            'image_path' => 'array',
             'image_path.*' => 'mimes:jpeg,jpg,png',
 
         ];

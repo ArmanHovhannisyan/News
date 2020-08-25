@@ -9,6 +9,9 @@
                             @if ($message = session('message'))
                                 <div class="alert alert-success">{{ $message }}</div>
                             @endif
+                            @if ($error = session('error'))
+                                <div class="alert alert-danger">{{ $error }}</div>
+                            @endif
                             @if ($errors->any())
                                 <div class="alert alert-danger">
                                     <ul>
@@ -20,8 +23,10 @@
                             @endif
                             <div class="card-body card-block">
                                 <label>Category</label>
-                                <form action="{{route('update_news',$news->id)}}" method="post" enctype="multipart/form-data">
+                                <form action="{{route('news.update',$news->id)}}" method="post"
+                                      enctype="multipart/form-data">
                                     @csrf
+                                    @method('PUT')
                                     <select value="{{old('category_id',$news->category_id)}}" class="form-control"
                                             id="exampleFormControlSelect1" name="category_id">
                                         @foreach($categories as $id => $category)
@@ -61,38 +66,33 @@
                                         <label>En</label>
                                         <div class="input-group">
 
-                                            <input type="text" name="short_description_en"
-                                                   placeholder="Short desc"
-                                                   class="form-control"
-                                                   value="{{old('short_description_en',$news->short_description_en)}}">
+
+                                            <textarea class="ckeditor form-control"
+                                                      name="short_description_en">{{old('short_description_en',$news->short_description_en)}}</textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Ru</label>
                                         <div class="input-group">
 
-                                            <input type="text"
-                                                   value="{{old('short_description_ru',$news->short_description_ru)}}"
-                                                   name="short_description_ru"
-                                                   placeholder="Short desc" class="form-control">
+                                            <textarea class="ckeditor form-control"
+                                                      name="short_description_ru">{{old('short_description_en',$news->short_description_ru)}}</textarea>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Hy</label>
                                         <div class="input-group">
 
-                                            <input type="text"
-                                                   value="{{old('short_description_hy',$news->short_description_hy)}}"
-                                                   name="short_description_hy"
-                                                   placeholder="Short desc" class="form-control">
+                                            <textarea class="ckeditor form-control"
+                                                      name="short_description_hy">{{old('short_description_en',$news->short_description_hy)}}</textarea>
                                         </div>
                                     </div>
 
-                                    <div class="name" style="display: flex;justify-content: space-between;">
+                                    <div class="name" >
                                         <div class="form-group">
                                             <div class="card-header">{{__('English')}}</div>
                                             <div class="input-group">
-                                                    <textarea name="long_description_en" class="form-control"
+                                                    <textarea name="long_description_en" class="ckeditor form-control"
                                                               value="" cols="30"
                                                               rows="10">{{old('long_description_en',$news->long_description_en)}}</textarea>
                                             </div>
@@ -100,7 +100,7 @@
                                         <div class="form-group">
                                             <div class="card-header">{{__('Armenia')}}</div>
                                             <div class="input-group">
-                                                    <textarea name="long_description_ru" class="form-control"
+                                                    <textarea name="long_description_ru" class="ckeditor form-control"
                                                               value="" cols="30"
                                                               rows="10">{{old('long_description_ru',$news->long_description_ru)}}</textarea>
                                             </div>
@@ -108,38 +108,19 @@
                                         <div class="form-group">
                                             <div class="card-header">{{__('Russian')}}</div>
                                             <div class="input-group">
-                                                    <textarea name="long_description_hy" class="form-control"
+                                                    <textarea name="long_description_hy" class="ckeditor form-control"
                                                               value="" cols="30"
                                                               rows="10">{{old('long_description_hy',$news->long_description_hy)}}</textarea>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <div class="table-responsive">
-
-                                            <span id="result"></span>
-                                            <table class="table table-bordered table-striped" id="user_table">
-                                                <thead>
-                                                <tr>
-                                                    <th width="65%">Hashtags</th>
-                                                    <th width="30%">Action</th>
-                                                </tr>
-                                                </thead>
-                                                <tbody>
-
-
-                                                </tbody>
-
-                                            </table>
-
-                                        </div>
-
-                                    </div>
 
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1">Add Image</label>
                                         <input type="file" name="avatar" class="form-control-file"
-                                               id="exampleFormControlFile1">
+                                               id="exampleFormControlFile1" value="{{$news->avatar}}">
+                                        <br>
+                                        <img src="{{asset('images/avatar/'.$news->avatar)}}" width="100px">
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleFormControlFile1">News pictures</label>
@@ -149,7 +130,7 @@
                                     <div class="form-group">
                                         <label>Pictures</label>
                                         <div class="row">
-                                            @foreach ($img as $id => $imgs)
+                                            @foreach ($news->image as $id => $imgs)
                                                 <div class="col-4">
                                                     <div class="panel panel-default">
                                                         <div class="panel-body text-center">
@@ -159,7 +140,9 @@
                                                                  alt="">
                                                         </div>
                                                         <div class="panel-footer text-center">
-                                                            <button type="button" class="btn btn-danger del" id="{{$imgs->id}}" data-toggle="modal" data-target="#exampleModal">Delete Image
+                                                            <button type="button" class="btn btn-danger del"
+                                                                    id="{{$imgs->id}}" data-toggle="modal"
+                                                                    data-target="#exampleModal">Delete Image
                                                             </button>
                                                         </div>
                                                     </div>
@@ -179,3 +162,9 @@
         </div>
     </div>
 </div>
+<script src="//cdn.ckeditor.com/4.14.1/standard/ckeditor.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.ckeditor').ckeditor();
+    });
+</script>

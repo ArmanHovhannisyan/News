@@ -25,13 +25,11 @@ class CreateNewsTable extends Migration
             $table->longText('long_description_en');
             $table->longText('long_description_ru');
             $table->longText('long_description_hy');
-            $table->string('view')->default(0);
             $table->string('avatar');
             $table->timestamps();
 
 
-
-            $table->foreign('category_id')->references('id')->on('categories');
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
         });
     }
 

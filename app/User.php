@@ -15,6 +15,7 @@ class User extends Authenticatable
      *
      * @var array
      */
+
     protected $fillable = [
         'name', 'email', 'password', 'status_id', 'type_admin_id',
     ];
@@ -38,10 +39,15 @@ class User extends Authenticatable
     ];
 
 
-
     public function type_admin()
     {
         return $this->belongsTo(Type_admin::class);
+    }
+
+
+    public function room_user()
+    {
+        return $this->hasMany(Room_user::class);
     }
 
     public function status()
@@ -49,7 +55,7 @@ class User extends Authenticatable
         return $this->belongsTo(Status::class);
     }
 
-    public function isAdmin()
+    public function success()
     {
         return $this->status_id == 2;
     }
@@ -64,8 +70,12 @@ class User extends Authenticatable
         return $this->status_id == 3;
     }
 
-    public function remove()
+    public function verifyUser()
     {
-        return $this->status == 'remove';
+        return $this->hasOne('App\VerifyUser');
+    }
+
+    public function messages () {
+        return $this->hasMany('App\Message');
     }
 }

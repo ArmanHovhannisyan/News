@@ -9,7 +9,7 @@ class News extends Model
     protected $fillable = [
         'category_id', 'title_ru', 'title_en', 'title_hy', 'short_description_en',
         'short_description_ru', 'short_description_hy', 'long_description_en', 'long_description_ru',
-        'long_description_hy', 'view', 'avatar',
+        'long_description_hy', 'avatar',
     ];
 //    protected  $guarded = [];
 
@@ -28,8 +28,4 @@ class News extends Model
         return $this->hasMany(View_news::class);
     }
 
-    public function hashtag()
-    {
-        return $this->hasMany(Hashtag::class);
-    }
 }

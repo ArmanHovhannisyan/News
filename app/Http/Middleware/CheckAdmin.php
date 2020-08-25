@@ -20,16 +20,23 @@ class CheckAdmin
         if($admin == null){
             return redirect()->route('login');
         }
-        if($admin->waiting()){
+        else if($admin->waiting()){
             return  back()->with('message','You haven\'t been confirmed yet');
         }
-        if($admin->block()){
+        else if($admin->block()){
             return  back()->with('block','You are Blocked');
         }
-        if (!$admin->isAdmin()) {
-            return redirect()->route('login');
+        else if($admin->status == Null){
+            return  back();
         }
 
-        return $next($request);
+        else if ($admin->success()) {
+            return $next($request);
+        }
+        else{
+            return abort(404);
+        }
+
+
     }
 }

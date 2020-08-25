@@ -17,12 +17,13 @@
                                     <h5 class="card-title">{!!$news["title_".App::getLocale()]!!}</h5>
                                     <p class="card-text">{!!$news["short_description_".App::getLocale()]!!}</p>
                                     <p class="card-text">{!!$news["long_description_".App::getLocale()]!!}</p>
-                                    <form id="form-delete" method="POST" action="{{route('destroy_news',$news->id)}}">
+                                    <form id="form-delete" method="POST" action="{{route('news.destroy',$news->id)}}">
                                         <button class="btn btn-danger">Delete</button>
                                         @csrf
                                         {{ method_field('delete') }}
-                                        <a href="{{route('edit_news',$news->id)}}" class="btn btn-primary">Edit</a>
+
                                     </form>
+                                    <a href="{{route('news.edit',$news->id)}}" class="btn btn-primary">Edit</a>
 
                                 </div>
                                     @endforeach

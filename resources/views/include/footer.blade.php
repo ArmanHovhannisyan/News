@@ -77,7 +77,7 @@
                 </div><!--col-xs-3-->
                 <div class="col-md-6">
                     <div class="copyright">
-                        © Copyright 2015 - Sports News Mag.com. Design by: <a href="https://uiCookies.com" title="uiCookies">uiCookies</a>
+                        © Copyright 2015 - Sports News News.am. Design by: <a href="https://uiCookies.com" title="Hacktech">Hacktech</a>
                     </div>
                 </div><!--col-xs-6-->
                 <div class="col-md-3">

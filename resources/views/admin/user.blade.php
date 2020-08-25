@@ -32,18 +32,26 @@
                                                 <span class="status--process">{{$user->status->name}}</span>
                                             </td>
                                             <td>
-                                                <div class="table-data-feature">
-                                                    <a href="{{route('admin.show',$user->id)}}" class="item"
-                                                       data-toggle="tooltip" data-placement="top" title=""
-                                                       data-original-title="Edit">
-                                                        <i class="zmdi zmdi-edit"></i>
-                                                    </a>
-                                                    <button class="item" data-toggle="tooltip" data-placement="top"
-                                                            title=""
-                                                            data-original-title="Delete">
-                                                        <i class="zmdi zmdi-delete"></i>
-                                                    </button>
-                                                </div>
+                                                @if(Auth::user()->type_admin_id == 2)
+                                                    <div class="table-data-feature">
+                                                        <a href="{{route('admin_info.show',$user->id)}}" class="item"
+                                                           data-toggle="tooltip" data-placement="top" title=""
+                                                           data-original-title="Edit">
+                                                            <i class="zmdi zmdi-edit"></i>
+                                                        </a>
+
+                                                        <form action="{{route('admin_info.destroy',$user->id)}}" method="post">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="item" type="submit" data-toggle="tooltip"
+                                                                    data-placement="top"
+
+                                                                    data-original-title="Delete">
+                                                                <i class="zmdi zmdi-delete"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                @endif
                                             </td>
                                         </tr>
                                         <tr class="spacer"></tr>

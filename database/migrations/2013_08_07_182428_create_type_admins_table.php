@@ -29,6 +29,6 @@ class CreateTypeAdminsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('type__admins');
+        Schema::dropIfExists('type_admins');
     }
 }

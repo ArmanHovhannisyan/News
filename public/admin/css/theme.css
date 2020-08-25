@@ -71,6 +71,9 @@ button {
     border: none;
     background: none;
 }
+.cke_reset{
+    width: 100%!important;
+}
 
 img {
     max-width: 100%;

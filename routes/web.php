@@ -1,6 +1,10 @@
 <?php
 
+
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,38 +17,53 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::group(['middleware'=>'auth'], function () {
+    Route::group(['prefix'=>'user'], function () {
+        Route::get('/data.json', 'UserController@show');
+    });
+
+    Route::group(['prefix'=>'chat'], function () {
+        Route::get('/', function () {
+            return view('chat');
+        });
+
+        Route::get('/messages.json', 'MessageController@show');
+        Route::post('/store', 'MessageController@store');
+    });
+});
+
+
+Route::get('/email',function (){
+    return new \App\Mail\WelcomeMail();
+});
+
+
 
 Auth::routes();
 Route::get('locale/{locale}', 'HomeController@changeLocale')->name('locale');
 Route::middleware(['middleware' => 'set_locale'])->group(function () {
-    Route::get('/', 'HomeController@index')->name('home');
+    Route::get('/', 'HomeController@index')->name('home_news');
+    Route::get('/single/{id}', 'HomeController@show')->name('show');
+    Route::get('/user/verify/{token}', 'UserController@verifyUser');
+    Route::get('/news/search/', 'HomeController@search')->name('search');
+
 });
 
 
 //admin
-Route::middleware(['middleware' => 'status'])->group(function () {
-    Route::get('/news/admin', 'NewsController@index')->name('home');
-    //Route::get('/news/admin/create', 'CreateController@index')->name('create');
-
-// Create Category
-    Route::get('/news/admin/category/create', 'CategoryController@create')->name('category');
-    Route::post('/news/admin/category/store', 'CategoryController@store')->name('create_category');
-    Route::get('/news/admin/category/show/{id}', 'CategoryController@show')->name('show_category');
+Route::middleware(['middleware' => 'status','set_locale'])->group(function () {
+    // Create Category
+    Route::resource('category','CategoryController');
 
     // Create News
-    Route::get('/news/admin/create', 'NewsController@create')->name('news');
-    Route::post('/news/admin/store', 'NewsController@store')->name('create_news');
-    Route::post('/news/admin/update/{id}', 'NewsController@update')->name('update_news');
-    Route::get('/news/admin/show/{id}', 'NewsController@show')->name('show_news');
-    Route::delete('/news/admin/delete/{id}', 'NewsController@destroy')->name('destroy_news');
-    Route::get('/news/admin/delete/hashtag', 'NewsController@delete_hashtag')->name('news_delete_hashtag');
-    Route::get('/news/admin/edit/{id}', 'NewsController@edit')->name('edit_news');
-    Route::get('/news/admin/img/delete', 'NewsController@delete_img')->name('delete_img_news');
+    Route::resource('news','NewsController');
+    Route::delete('/news/admin/img/delete', 'NewsController@delete_img')->name('delete_img_news');
 
     //admin
-    Route::get('/news/admin/user', 'AdminController@index')->name('admin');
-    Route::get('/admin/show/{id}', 'AdminController@show')->name('admin.show');
-    Route::post('/admin/update/{id}', 'AdminController@update')->name('admin.update');
+    Route::resource('admin_info','AdminController');
+    Route::resource('user','UserController');
+    Route::get('/download', 'AdminController@fileExport');
+    Route::get('/admin/online/chat', 'AdminController@online')->name('admin.online');
 
 });
 

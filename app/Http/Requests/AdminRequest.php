@@ -23,10 +23,14 @@ class AdminRequest extends FormRequest
      */
     public function rules()
     {
+
+        $user_id =  $this->input('id');
+
         return [
-            'name' => 'required',
-            'email' => 'required',
-            'status' => 'required'
+            'name' => ['required', 'string', 'max:255'],
+            'email' => 'required|email|unique:users,email,'.$user_id,
+            'status_id' => 'required',
+            'type_admin_id' => 'required'
         ];
     }
 }

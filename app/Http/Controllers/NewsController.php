@@ -1,13 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Hashtag;
-use App\Http\Requests\NewsRequest;
-use App\Images;
-use App\Services\NewsServices;
-use App\News;
-use Illuminate\Http\Request;
 
+use App\Contracts\NewsControllerInterface;
+use App\Http\Requests\NewsRequest;
+use App\Http\Requests\NewsUpdateRequest;
+use App\Http\Requests\UserSettingRequest;
+use Illuminate\Http\Request;
 
 
 class NewsController extends Controller
@@ -17,6 +16,18 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public $NewsControllerInterface;
+
+    /**
+     * NewsController constructor.
+     * @param NewsControllerInterface $NewsControllerInterface
+     */
+    public function __construct(NewsControllerInterface $NewsControllerInterface)
+    {
+        $this->NewsControllerInterface = $NewsControllerInterface;
+
+    }
+
     public function index()
     {
         return view('admin.index');
@@ -40,34 +51,33 @@ class NewsController extends Controller
      */
     public function store(NewsRequest $request)
     {
-        NewsServices::store($request);
+        $this->NewsControllerInterface->store($request);
         return back()->with('message', 'Created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param int $news_id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function show($id)
+    public function show($news_id)
     {
-        $news_list = NewsServices::show($id);
-
+        $news_list = $this->NewsControllerInterface->show($news_id);
         return view('admin.news.news', compact('news_list'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param int $id
+     * @param $news_id
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit($news_id)
     {
-        $news = News::findOrFail($id);
-        $hashtag = Hashtag::with('news')->where('news_id', $id)->get();
-        $img = Images::with('news')->where('news_id', $id)->get();
-        return view('admin.news.news_edit', compact('news', 'hashtag', 'img'));
+        $news = $this->NewsControllerInterface->edit($news_id);
+
+        return view('admin.news.news_edit',compact('news'));
     }
 
     /**
@@ -77,9 +87,10 @@ class NewsController extends Controller
      * @param $id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(NewsUpdateRequest $request, $news_id)
     {
-        NewsServices::update($request,$id);
+
+        $this->NewsControllerInterface->update($request,$news_id);
 
         return back()->with('message', 'Update successfully');
     }
@@ -87,26 +98,23 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param $news_id
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy($id)
+    public function destroy($news_id)
     {
-        NewsServices::destroy($id);
-        return redirect()->route('home')->with('message', 'The news has been deleted');
+        $this->NewsControllerInterface->destroy($news_id);
+
+        return redirect()->route('news.index')->with('message', 'The news has been deleted');
     }
 
-    public function delete_hashtag()
-    {
-        $id = $_GET['id'];
-        $hashtag = Hashtag::findOrFail($id);
-        $hashtag->delete();
-    }
 
     public function delete_img(Request $request)
     {
 
-        NewsServices::delete_img($request);
+        $this->NewsControllerInterface->delete_img($request);
         return back()->with('message', 'Delete image successfully');
     }
+
+
 }

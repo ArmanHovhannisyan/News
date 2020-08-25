@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 use App\Category;
+use App\News;
+use App\User;
+use App\View_news;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
@@ -33,10 +36,19 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         Schema::defaultStringLength(191);
         if (Schema::hasTable('categories')) {
             View::share('categories', Category::select(['id','name_en', 'name_hy', 'name_ru'])->orderBy('id', 'asc')->get());
+        }
+        if (Schema::hasTable('users')) {
+            View::share('user_a', User::select(['id','name', 'email','status_id'])->where('status_id',1)->take(3)->get());
+        }
+
+        if (Schema::hasTable('news')) {
+            View::share('news_show', News::select(['id','avatar','title_ru', 'title_en','title_hy','short_description_en','short_description_hy','short_description_ru'])->orderBy('id','desc')->take(5)->get());
+        }
+        if (Schema::hasTable('view_news')) {
+            View::share('news_top', News::withCount('view_news')->orderBy('view_news_count','desc')->take(5)->get());
         }
 
         parent::boot();

@@ -2,57 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Helper;
-use App\Room;
-use App\Room_user;
-use Illuminate\Broadcasting\PrivateChannel;
+use App\Message;
+use App\Events\MessagePosted;
 use Illuminate\Http\Request;
-use App\Events\SendMsgEvent;
 use Illuminate\Support\Facades\Auth;
-
-class ChatController extends Controller
+class MessageController extends Controller
 {
+    public function show () {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-    public function getChatView(Request $request)
-    {
-        $user = Auth::user();
-        if($user->type_admin_id !== 3){
-            $room = $request->user_id;
-        }
-        else {
-            $room = $user->id;
-        }
-
-        event(new SendMsgEvent($room, $message = ''));
-        $room_user = Room_user::where('user_id', $room)->get();
-        return view('admin.inbox',compact('room_user','room'));
+        $messages = Message::with('user')->get();
+        return $messages;
     }
 
-    public function chat(Request $request)
-    {
-
-
+    public function store (Request $request) {
         $user = Auth::user();
-        if($user->type_admin_id == 2){
-            $room = $request->user_id;
-        }
-        else {
-            $room = $user->id;
-        }
+        $message = $user->messages()->create($request->all());
 
+        event(new MessagePosted($message, $user));
 
-        $message = $request->message;
-        Room_user::create([
-            'user_id'=> $room,
-            'message'=> $message,
-        ]);
-        if ($message) {
-            event(new SendMsgEvent($room, $message));
-            return response()->json(['result' => 'ok'], 200);
-        }
+        return response()->json(['msg'=>'success'], 200);
     }
 }
